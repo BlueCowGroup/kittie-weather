@@ -191,6 +191,7 @@ function createAppStore() {
     if (!selectedCat || !state.currentWeather || !state.aiApiKey) return;
 
     setIsGeneratingImage(true);
+    setState('error', null);
 
     try {
       const result = await generateCatWeatherImage(
@@ -218,9 +219,12 @@ function createAppStore() {
           })
         );
         saveGeneratedImages(state.generatedImages);
+      } else if (result.error) {
+        setState('error', `Image generation failed: ${result.error}`);
       }
     } catch (error) {
-      console.error('Failed to generate cat image:', error);
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      setState('error', `Image generation failed: ${message}`);
     } finally {
       setIsGeneratingImage(false);
     }
