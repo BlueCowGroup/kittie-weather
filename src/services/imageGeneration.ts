@@ -301,7 +301,7 @@ async function generateWithOpenAI(
         n: 1,
         size: '1024x1024',
         quality: 'hd',
-        response_format: 'url',
+        response_format: 'b64_json',
       }),
     });
 
@@ -311,9 +311,11 @@ async function generateWithOpenAI(
     }
 
     const data = await response.json();
+    const base64Image = data.data[0].b64_json;
+
     return {
       success: true,
-      imageUrl: data.data[0].url,
+      imageUrl: `data:image/png;base64,${base64Image}`,
       prompt,
     };
   } catch (error) {
