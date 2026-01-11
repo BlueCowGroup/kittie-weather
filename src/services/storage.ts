@@ -1,4 +1,4 @@
-import type { CatPhoto, GeneratedCatImage, Location } from '../types';
+import type { CatPhoto, GeneratedCatImage, Location, TemperatureUnit } from '../types';
 
 const STORAGE_KEYS = {
   CAT_PHOTOS: 'kittie_weather_cats',
@@ -6,6 +6,7 @@ const STORAGE_KEYS = {
   GENERATED_IMAGES: 'kittie_weather_generated',
   LOCATION: 'kittie_weather_location',
   AI_API_KEY: 'kittie_weather_ai_key',
+  TEMPERATURE_UNIT: 'kittie_weather_temp_unit',
 };
 
 export function saveCatPhotos(photos: CatPhoto[]): void {
@@ -85,6 +86,36 @@ export function loadAiApiKey(): string | null {
 
 export function clearAiApiKey(): void {
   localStorage.removeItem(STORAGE_KEYS.AI_API_KEY);
+}
+
+export function saveTemperatureUnit(unit: TemperatureUnit): void {
+  localStorage.setItem(STORAGE_KEYS.TEMPERATURE_UNIT, unit);
+}
+
+export function loadTemperatureUnit(): TemperatureUnit {
+  const saved = localStorage.getItem(STORAGE_KEYS.TEMPERATURE_UNIT);
+  if (saved === 'celsius' || saved === 'fahrenheit') {
+    return saved;
+  }
+  return getDefaultTemperatureUnit();
+}
+
+export function getDefaultTemperatureUnit(): TemperatureUnit {
+  // Countries that primarily use Fahrenheit
+  const fahrenheitCountries = ['US', 'BS', 'KY', 'LR', 'PW', 'FM', 'MH'];
+
+  try {
+    // Get locale from browser
+    const locale = navigator.language || (navigator as any).userLanguage || 'en-US';
+    // Extract country code (e.g., 'en-US' -> 'US', 'en-GB' -> 'GB')
+    const parts = locale.split('-');
+    const countryCode = parts.length > 1 ? parts[1].toUpperCase() : parts[0].toUpperCase();
+
+    return fahrenheitCountries.includes(countryCode) ? 'fahrenheit' : 'celsius';
+  } catch {
+    // Default to Celsius if detection fails
+    return 'celsius';
+  }
 }
 
 export function generateId(): string {

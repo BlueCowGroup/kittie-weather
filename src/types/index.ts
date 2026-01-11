@@ -54,6 +54,8 @@ export interface GeneratedCatImage {
   prompt: string;
 }
 
+export type TemperatureUnit = 'celsius' | 'fahrenheit';
+
 export interface AppState {
   currentWeather: WeatherData | null;
   hourlyForecast: HourlyForecast[];
@@ -66,6 +68,7 @@ export interface AppState {
   isLoading: boolean;
   error: string | null;
   aiApiKey: string | null;
+  temperatureUnit: TemperatureUnit;
 }
 
 export type WeatherCondition =
