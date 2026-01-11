@@ -3,6 +3,7 @@ import solidPlugin from 'vite-plugin-solid';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
+  base: '/kittie-weather/',
   plugins: [
     solidPlugin(),
     VitePWA({
@@ -16,8 +17,8 @@ export default defineConfig({
         background_color: '#1a1a2e',
         display: 'standalone',
         orientation: 'portrait',
-        scope: '/',
-        start_url: '/',
+        scope: '/kittie-weather/',
+        start_url: '/kittie-weather/',
         icons: [
           {
             src: 'favicon.svg',
