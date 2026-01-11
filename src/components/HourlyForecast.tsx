@@ -20,7 +20,7 @@ const HourlyForecast: Component = () => {
         <span class="card-title">HOURLY FORECAST</span>
       </div>
       <div class="hourly-scroll">
-        <For each={state.hourlyForecast.slice(0, 24)}>
+        <For each={state.hourlyForecast.slice(0, 12)}>
           {(hour) => (
             <div class="hourly-item">
               <div class="hour-time">{formatHour(hour.time)}</div>

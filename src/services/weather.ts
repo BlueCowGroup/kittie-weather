@@ -174,17 +174,17 @@ export async function fetchWeather(
     precipitation: data.current.precipitation || 0,
   };
 
-  // Get next 24 hours of hourly data
+  // Get hourly data starting from current hour
   const now = new Date();
-  const hourly: HourlyForecast[] = data.hourly.time
-    .slice(0, 25)
-    .map((time: string, i: number) => ({
-      time: new Date(time),
-      temperature: Math.round(data.hourly.temperature_2m[i]),
-      weatherCode: data.hourly.weather_code[i],
-      precipitation: data.hourly.precipitation[i] || 0,
-    }))
-    .filter((h: HourlyForecast) => h.time >= now);
+  const allHourly: HourlyForecast[] = data.hourly.time.map((time: string, i: number) => ({
+    time: new Date(time),
+    temperature: Math.round(data.hourly.temperature_2m[i]),
+    weatherCode: data.hourly.weather_code[i],
+    precipitation: data.hourly.precipitation[i] || 0,
+  }));
+
+  // Filter to hours from now onwards and take next 24 hours
+  const hourly = allHourly.filter((h) => h.time >= now).slice(0, 24);
 
   const daily: DailyForecast[] = data.daily.time.map((date: string, i: number) => ({
     date: new Date(date),

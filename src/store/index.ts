@@ -186,9 +186,10 @@ function createAppStore() {
     }
   }
 
-  async function generateNewCatImage() {
+  async function generateNewCatImage(apiKeyOverride?: string) {
     const selectedCat = state.catPhotos.find((p) => p.id === state.selectedCatId);
-    if (!selectedCat || !state.currentWeather || !state.aiApiKey) return;
+    const apiKey = apiKeyOverride || state.aiApiKey;
+    if (!selectedCat || !state.currentWeather || !apiKey) return;
 
     setIsGeneratingImage(true);
     setState('error', null);
@@ -197,7 +198,7 @@ function createAppStore() {
       const result = await generateCatWeatherImage(
         selectedCat,
         state.currentWeather,
-        state.aiApiKey,
+        apiKey,
         'openai',
         state.location || undefined
       );
