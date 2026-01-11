@@ -16,7 +16,7 @@ interface PromptContext {
 
 // Location-based scene settings
 function getLocationScene(location: Location, weather: WeatherData): string {
-  const name = location.name.toLowerCase();
+  const name = (location.name || '').toLowerCase();
   const isCoastal = /beach|bay|coast|ocean|sea|island|key|shore|marina|port|harbor|boca|miami|malibu|santa monica|san diego|honolulu|cancun|cabo/i.test(name);
   const isMountain = /mountain|alpine|aspen|vail|denver|salt lake|boulder|jackson|tahoe|whistler/i.test(name);
   const isDesert = /phoenix|tucson|vegas|scottsdale|palm springs|sedona|albuquerque|mojave/i.test(name);
