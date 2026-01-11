@@ -196,7 +196,9 @@ function createAppStore() {
       const result = await generateCatWeatherImage(
         selectedCat,
         state.currentWeather,
-        state.aiApiKey
+        state.aiApiKey,
+        'openai',
+        state.location || undefined
       );
 
       if (result.success && result.imageUrl) {
