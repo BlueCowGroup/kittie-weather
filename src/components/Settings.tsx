@@ -19,7 +19,7 @@ const Settings: Component<SettingsProps> = (props) => {
 
     // Trigger image generation if we have a cat and weather
     if (key && state.selectedCatId && state.currentWeather) {
-      generateNewCatImage();
+      generateNewCatImage(key);
     }
   };
 
