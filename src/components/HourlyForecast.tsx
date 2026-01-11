@@ -1,9 +1,12 @@
 import { Component, For, Show } from 'solid-js';
 import { store } from '../store';
 import WeatherIcon from './WeatherIcon';
+import { convertTemperature } from '../utils/temperature';
 
 const HourlyForecast: Component = () => {
   const { state } = store;
+
+  const temp = (celsius: number) => convertTemperature(celsius, state.temperatureUnit);
 
   const formatHour = (date: Date) => {
     const now = new Date();
@@ -29,7 +32,7 @@ const HourlyForecast: Component = () => {
                 isDay={hour.time.getHours() >= 6 && hour.time.getHours() < 20}
                 size="md"
               />
-              <div class="hour-temp">{hour.temperature}°</div>
+              <div class="hour-temp">{temp(hour.temperature)}°</div>
             </div>
           )}
         </For>

@@ -1,6 +1,6 @@
 import { createSignal, createEffect, createRoot } from 'solid-js';
 import { createStore, produce } from 'solid-js/store';
-import type { AppState, CatPhoto, Location, GeneratedCatImage } from '../types';
+import type { AppState, CatPhoto, Location, GeneratedCatImage, TemperatureUnit } from '../types';
 import {
   loadCatPhotos,
   saveCatPhotos,
@@ -12,6 +12,8 @@ import {
   saveLocation,
   loadAiApiKey,
   saveAiApiKey,
+  loadTemperatureUnit,
+  saveTemperatureUnit,
   generateId,
   compressImage,
 } from '../services/storage';
@@ -31,6 +33,7 @@ function createAppStore() {
     isLoading: false,
     error: null,
     aiApiKey: loadAiApiKey(),
+    temperatureUnit: loadTemperatureUnit(),
   });
 
   const [isGeneratingImage, setIsGeneratingImage] = createSignal(false);
@@ -242,6 +245,11 @@ function createAppStore() {
     setState('error', null);
   }
 
+  function setTemperatureUnit(unit: TemperatureUnit) {
+    setState('temperatureUnit', unit);
+    saveTemperatureUnit(unit);
+  }
+
   return {
     state,
     isGeneratingImage,
@@ -253,6 +261,7 @@ function createAppStore() {
     selectCat,
     generateNewCatImage,
     setAiApiKey,
+    setTemperatureUnit,
     clearError,
     searchLocations,
   };

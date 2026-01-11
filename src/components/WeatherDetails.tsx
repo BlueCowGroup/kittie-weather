@@ -1,8 +1,11 @@
 import { Component, Show } from 'solid-js';
 import { store } from '../store';
+import { convertTemperature } from '../utils/temperature';
 
 const WeatherDetails: Component = () => {
   const { state } = store;
+
+  const temp = (celsius: number) => convertTemperature(celsius, state.temperatureUnit);
 
   const getWindDirection = (degrees: number) => {
     const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
@@ -27,7 +30,7 @@ const WeatherDetails: Component = () => {
               <span class="detail-icon">🌡️</span>
               <span class="detail-label">FEELS LIKE</span>
             </div>
-            <div class="detail-value">{weather().feelsLike}°</div>
+            <div class="detail-value">{temp(weather().feelsLike)}°</div>
             <div class="detail-note">
               {weather().feelsLike > weather().temperature
                 ? 'Humidity is making it feel warmer'
