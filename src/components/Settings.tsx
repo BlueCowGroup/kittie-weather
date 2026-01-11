@@ -1,5 +1,6 @@
 import { Component, createSignal, Show } from 'solid-js';
 import { store } from '../store';
+import type { TemperatureUnit } from '../types';
 
 declare const __BUILD_TIMESTAMP__: string;
 
@@ -23,7 +24,7 @@ interface SettingsProps {
 }
 
 const Settings: Component<SettingsProps> = (props) => {
-  const { state, setAiApiKey, generateNewCatImage } = store;
+  const { state, setAiApiKey, generateNewCatImage, setTemperatureUnit } = store;
   const buildDate = formatBuildDate(__BUILD_TIMESTAMP__);
   const [apiKey, setApiKey] = createSignal(state.aiApiKey || '');
   const [showKey, setShowKey] = createSignal(false);
@@ -103,6 +104,24 @@ const Settings: Component<SettingsProps> = (props) => {
               <p class="security-note">
                 🔒 Your API key is stored locally on your device and never sent to our servers.
               </p>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3>Temperature Unit</h3>
+            <div class="temperature-toggle">
+              <button
+                class={`temp-btn ${state.temperatureUnit === 'celsius' ? 'active' : ''}`}
+                onClick={() => setTemperatureUnit('celsius')}
+              >
+                °C Celsius
+              </button>
+              <button
+                class={`temp-btn ${state.temperatureUnit === 'fahrenheit' ? 'active' : ''}`}
+                onClick={() => setTemperatureUnit('fahrenheit')}
+              >
+                °F Fahrenheit
+              </button>
             </div>
           </div>
 
