@@ -1,12 +1,30 @@
 import { Component, createSignal, Show } from 'solid-js';
 import { store } from '../store';
 
+declare const __BUILD_TIMESTAMP__: string;
+
+const formatBuildDate = (isoString: string): string => {
+  try {
+    const date = new Date(isoString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  } catch {
+    return isoString;
+  }
+};
+
 interface SettingsProps {
   onClose: () => void;
 }
 
 const Settings: Component<SettingsProps> = (props) => {
   const { state, setAiApiKey, generateNewCatImage } = store;
+  const buildDate = formatBuildDate(__BUILD_TIMESTAMP__);
   const [apiKey, setApiKey] = createSignal(state.aiApiKey || '');
   const [showKey, setShowKey] = createSignal(false);
   const [saved, setSaved] = createSignal(false);
@@ -94,7 +112,7 @@ const Settings: Component<SettingsProps> = (props) => {
               Kittie Weather combines real-time weather data with AI-generated images of your cat,
               creating a personalized weather experience.
             </p>
-            <p class="version-text">Version 1.0.0</p>
+            <p class="version-text">Build: {buildDate}</p>
           </div>
         </div>
       </div>
